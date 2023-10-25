@@ -1,17 +1,19 @@
 import React from "react";
 import { Comment } from "../../types";
-import avatarImage from "../../assets/images/avatars/image-amyrobson.png";
 
 type CommentProps = {
   comment: Comment;
 };
 
+// http://localhost:5173/src/assets/images/avatars/image-amyrobson.png
+
 const Comment = ({ comment }: CommentProps) => {
+    
   return (
     <>
       <div className="flex flex-col bg-white rounded-lg p-4 gap-4">
           <div className="flex gap-4">
-            <img src={avatarImage} width={32} height={32} />
+            <img src={`${comment.user.image.webp}`} width={32} height={32} />
             <span>{comment.user.username}</span>
             <span>{comment.createdAt}</span>
           </div>
