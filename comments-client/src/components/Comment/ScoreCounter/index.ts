@@ -1,0 +1,1 @@
+export { default as ScoreCounter } from './ScoreCounter';

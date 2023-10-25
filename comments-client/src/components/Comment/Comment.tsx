@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Comment } from "../../types";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { ScoreCounter } from "./ScoreCounter";
 
 type CommentProps = {
   comment: Comment;
@@ -18,21 +19,44 @@ const Comment = ({ comment, isReply }: CommentProps) => {
       <div className="flex flex-col bg-white rounded-lg p-4 gap-4">
         <div className="flex gap-4">
           <img src={`${comment.user.image.webp}`} width={32} height={32} />
-          <strong>
+          <strong className="text-dark-blue">
             {comment.user.username}
-            {isOwnComment && <span className="bg-moderate-blue text-white text-xs font-medium rounded-sm px-1.5 py-1 ml-2">you</span>}
-            </strong>
-          <span>{comment.createdAt}</span>
+            {isOwnComment && (
+              <span className="bg-moderate-blue text-white text-xs font-medium rounded-sm px-1.5 py-0.5 ml-2">
+                you
+              </span>
+            )}
+          </strong>
+          <span className="text-grayish-blue">{comment.createdAt}</span>
         </div>
-        <p>
+        <p className="text-grayish-blue">
           {isReply && (
             <span className="text-moderate-blue font-medium">{`@${comment.replyingTo} `}</span>
           )}
           {comment.content}
         </p>
         <div className="flex justify-between">
-          <div>{comment.score}</div>
-          <button>reply</button>
+          <ScoreCounter
+            initialScore={comment.score}
+            isDisabled={isOwnComment}
+          />
+          {isOwnComment ? (
+            <div className="flex gap-4">
+                <button className="flex items-center gap-2 text-soft-red font-medium">
+              <img src="images/icon-delete.svg" alt="" />
+              Delete
+            </button>
+                <button className="flex items-center gap-2 text-moderate-blue font-medium">
+              <img src="images/icon-edit.svg" alt="" />
+              Edit
+            </button>
+            </div>
+          ) : (
+            <button className="flex items-center gap-2 text-moderate-blue font-medium">
+              <img src="images/icon-reply.svg" alt="" />
+              Reply
+            </button>
+          )}
         </div>
       </div>
       {comment.replies?.length > 0 && (
