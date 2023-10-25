@@ -16,9 +16,9 @@ function App() {
   }, []);
 
   return (
-    <main>
+    <main className="bg-very-light-gray min-h-screen px-4 py-8">
       {comments.length > 0 && (
-        <ul className="flex-col gap-4">
+        <ul className="flex flex-col gap-4">
           {comments.map((comment) => (
             <li key={comment.id}>
               <Comment comment={comment} />
