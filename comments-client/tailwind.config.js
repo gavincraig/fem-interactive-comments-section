@@ -8,6 +8,7 @@ export default {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
+      'black': '#000000',
       'white': '#ffffff',
       'moderate-blue': 'hsl(238, 40%, 52%)',
       'soft-red': 'hsl(358, 79%, 66%)',

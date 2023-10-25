@@ -6,11 +6,12 @@ import { ScoreCounter } from "./ScoreCounter";
 type CommentProps = {
   comment: Comment;
   isReply?: boolean;
+  handleDeleteButtonClick?: (id: number) => void
 };
 
 // http://localhost:5173/src/assets/images/avatars/image-amyrobson.png
 
-const Comment = ({ comment, isReply }: CommentProps) => {
+const Comment = ({ comment, isReply, handleDeleteButtonClick }: CommentProps) => {
   const currentUser = useContext(CurrentUserContext);
 
   const isOwnComment = comment.user.username === currentUser.username;
@@ -42,7 +43,7 @@ const Comment = ({ comment, isReply }: CommentProps) => {
           />
           {isOwnComment ? (
             <div className="flex gap-4">
-                <button className="flex items-center gap-2 text-soft-red font-medium">
+                <button className="flex items-center gap-2 text-soft-red font-medium" onClick={() => handleDeleteButtonClick(comment.id)}>
               <img src="images/icon-delete.svg" alt="" />
               Delete
             </button>
@@ -63,7 +64,7 @@ const Comment = ({ comment, isReply }: CommentProps) => {
         <ul className="flex flex-col pl-4 mt-4 gap-4 border-l-2 border-light-gray">
           {comment.replies.map((reply) => (
             <li key={reply.id}>
-              <Comment comment={reply} isReply />
+              <Comment comment={reply} isReply handleDeleteButtonClick={handleDeleteButtonClick} />
             </li>
           ))}
         </ul>
