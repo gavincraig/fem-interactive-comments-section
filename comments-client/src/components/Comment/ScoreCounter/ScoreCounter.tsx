@@ -24,7 +24,7 @@ const ScoreCounter = ({ initialScore, isDisabled }: ScoreCounterProps) => {
           isDisabled ||
           (isUpvoteVariant ? score > initialScore : score < initialScore)
         }
-        className="px-4 py-2 text-light-grayish-blue disabled:opacity-25"
+        className="px-4 py-2 text-light-grayish-blue hover:opacity-50 disabled:opacity-25 "
       >
         <img src={iconSrc} alt="" />
       </button>

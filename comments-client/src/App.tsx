@@ -77,8 +77,9 @@ function App() {
 
   return (
     <main
-      className={`flex flex-col gap-4 bg-very-light-gray min-h-sreen px-4 py-8 relative`}
+      className={`bg-very-light-gray min-h-sreen px-4 py-8 relative`}
     >
+      <div className="flex flex-col gap-4 max-w-screen-md m-auto">
       <CurrentUserContext.Provider value={currentUser}>
         {showDeleteCommentModal && (
           <DeleteCommentModal
@@ -102,6 +103,8 @@ function App() {
         )}
         <NewCommentInput submitCallback={handleAddComment} />
       </CurrentUserContext.Provider>
+      </div>
+      
     </main>
   );
 }

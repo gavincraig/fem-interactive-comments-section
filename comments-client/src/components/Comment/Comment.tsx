@@ -42,7 +42,7 @@ const Comment = ({
     <div className="flex flex-col gap-4">
       <div className="flex flex-col bg-white rounded-lg p-4 gap-4">
         <div className="flex gap-4 items-center">
-          <img src={`${comment.user.image.webp}`} width={32} height={32} />
+          <img src={`${comment.user.image.webp}`} alt={`${comment.user.username}'s avatar`} width={32} height={32} />
           <strong className="text-dark-blue">
             {comment.user.username}
             {isOwnComment && (
@@ -60,7 +60,7 @@ const Comment = ({
               onChange={(e) => setInputValue(e.target.value)}
             />
             <button
-              className="rounded-lg bg-moderate-blue text-white font-medium px-8 py-3 w-fit self-end"
+              className="rounded-lg bg-moderate-blue text-white font-medium px-8 py-3 w-fit self-end hover:bg-light-grayish-blue"
               onClick={onUpdateSubmit}
             >
               UPDATE
@@ -83,14 +83,14 @@ const Comment = ({
           {isOwnComment ? (
             <div className="flex gap-4">
               <button
-                className="flex items-center gap-2 text-soft-red font-medium"
+                className="flex items-center gap-2 text-soft-red font-medium hover:opacity-50"
                 onClick={() => handleDeleteButtonClick(comment.id)}
               >
                 <img src="images/icon-delete.svg" alt="" />
                 Delete
               </button>
               <button
-                className="flex items-center gap-2 text-moderate-blue font-medium"
+                className="flex items-center gap-2 text-moderate-blue font-medium hover:opacity-50"
                 onClick={() => setShowEditInput(true)}
               >
                 <img src="images/icon-edit.svg" alt="" />
@@ -99,7 +99,7 @@ const Comment = ({
             </div>
           ) : (
             <button
-              className="flex items-center gap-2 text-moderate-blue font-medium"
+              className="flex items-center gap-2 text-moderate-blue font-medium hover:opacity-50"
               onClick={() => setShowReplyInput(true)}
             >
               <img src="images/icon-reply.svg" alt="" />

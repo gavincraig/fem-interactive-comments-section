@@ -43,7 +43,7 @@ const NewCommentInput = ({
         />
         <button
           type={"submit"}
-          className="rounded-lg bg-moderate-blue text-white font-medium px-8 py-3"
+          className="rounded-lg bg-moderate-blue text-white font-medium px-8 py-3 hover:bg-light-grayish-blue"
         >
           SEND
         </button>
