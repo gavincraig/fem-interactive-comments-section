@@ -11,8 +11,6 @@ type CommentProps = {
   handleAddReply?: (id: number) => void;
 };
 
-// http://localhost:5173/src/assets/images/avatars/image-amyrobson.png
-
 const Comment = ({
   comment,
   isReply,
