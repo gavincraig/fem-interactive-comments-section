@@ -34,6 +34,51 @@ function App() {
     setComments((comments) => [...comments, newComment]);
   };
 
+  const handleAddReply = (comment: string, replyingToId: number) => {
+    console.log("add reply to ", comment, replyingToId);
+    const newComments = [...comments];
+    const recurse = (comments: Comment[]) => {
+      const newComments = [...comments];
+      // find comment with id === replyingTo. add to replies. break
+
+      let found = false;
+      let idx = 0;
+      let commentReplyingTo = false;
+
+      while (!found && idx < comments.length) {
+        if (newComments[idx].id === replyingToId) {
+          console.log("found it! ", newComments[idx].id);
+          found = true;
+
+          const newComment = {
+            content: comment,
+            createdAt: "a moment ago",
+            id: totalNumComments + 1,
+            score: 1,
+            user: currentUser,
+            replyingTo: newComments[idx].user.username,
+          };
+
+          if (newComments[idx].replies) {
+            newComments[idx].replies.push(newComment);
+          } else {
+            newComments[idx].replies = [newComment];
+          }
+          return true;
+        }
+        if (newComments[idx].replies?.length > 0) {
+          recurse(newComments[idx].replies);
+        }
+        idx++;
+      }
+      return false;
+    };
+
+    const commentReplyingTo = recurse(newComments);
+    setComments(newComments);
+    console.log("did find val : ", commentReplyingTo);
+  };
+
   const handleDeleteComment = () => {
     setComments(deleteCommentRecursive(comments, selectedCommentId));
     setShowDeleteCommentModal(false);
@@ -67,12 +112,13 @@ function App() {
                 <Comment
                   comment={comment}
                   handleDeleteButtonClick={handleOpenDeleteModal}
+                  handleAddReply={handleAddReply}
                 />
               </li>
             ))}
           </ul>
         )}
-        <NewCommentInput handleAddComment={handleAddComment} />
+        <NewCommentInput submitCallback={handleAddComment} />
       </CurrentUserContext.Provider>
     </main>
   );
