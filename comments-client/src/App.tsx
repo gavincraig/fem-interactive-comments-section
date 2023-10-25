@@ -104,7 +104,10 @@ function App() {
         <NewCommentInput submitCallback={handleAddComment} />
       </CurrentUserContext.Provider>
       </div>
-      
+      <div className="text-center text-xs text-grayish-blue mt-4">
+    Challenge by <a className="text-moderate-blue" href="https://www.frontendmentor.io/challenges/interactive-comments-section-iG1RugEG9" target="_blank">Frontend Mentor</a>. 
+    Coded by <a className="text-moderate-blue" href="https://github.com/gavincraig/fem-interactive-comments-section">gavincraig</a>.
+  </div>
     </main>
   );
 }
