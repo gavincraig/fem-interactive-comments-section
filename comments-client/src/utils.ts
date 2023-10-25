@@ -19,3 +19,25 @@ export const countCommentsRecursive = (comments: Comment[]) => {
   });
   return total;
 };
+
+export const findCommentByIdRecursive = (comments: Comment[], id: number) => {
+  let found = false;
+  let currIdx = 0;
+
+  while (!found && currIdx < comments.length) {
+    const currentComment = comments[currIdx];
+    if (currentComment.id === id) {
+      found = true;
+      return currentComment;
+    }
+    if (currentComment.replies?.length > 0) {
+      const foundComment = findCommentByIdRecursive(currentComment.replies, id);
+      if (foundComment) {
+        found = true;
+        return foundComment;
+      }
+    }
+    currIdx += 1;
+  }
+  return false;
+};

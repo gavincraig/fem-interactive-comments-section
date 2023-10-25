@@ -3,12 +3,14 @@ import { Comment } from "../../types";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 import { ScoreCounter } from "./ScoreCounter";
 import { NewCommentInput } from "../NewCommentInput";
+import { TextArea } from "../core/TextArea";
 
 type CommentProps = {
   comment: Comment;
   isReply?: boolean;
   handleDeleteButtonClick?: (id: number) => void;
   handleAddReply?: (id: number) => void;
+  handleUpdateComment?: (comment: string, id: number) => void;
 };
 
 const Comment = ({
@@ -16,16 +18,24 @@ const Comment = ({
   isReply,
   handleDeleteButtonClick,
   handleAddReply,
+  handleUpdateComment
 }: CommentProps) => {
   const currentUser = useContext(CurrentUserContext);
 
   const [showReplyInput, setShowReplyInput] = useState(false);
+  const [showEditInput, setShowEditInput] = useState(false);
+  const [inputValue, setInputValue] = useState(comment.content);
 
   const isOwnComment = comment.user.username === currentUser.username;
 
   const onReplySubmit = (reply: string) => {
     setShowReplyInput(false);
     handleAddReply(reply, comment.id);
+  };
+
+  const onUpdateSubmit = () => {
+    setShowEditInput(false);
+    handleUpdateComment(inputValue, comment.id)
   };
 
   return (
@@ -43,12 +53,28 @@ const Comment = ({
           </strong>
           <span className="text-grayish-blue">{comment.createdAt}</span>
         </div>
-        <p className="text-grayish-blue">
-          {isReply && (
-            <span className="text-moderate-blue font-medium">{`@${comment.replyingTo} `}</span>
-          )}
-          {comment.content}
-        </p>
+        {showEditInput ? (
+          <>
+            <TextArea
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+            <button
+              className="rounded-lg bg-moderate-blue text-white font-medium px-8 py-3 w-fit self-end"
+              onClick={onUpdateSubmit}
+            >
+              UPDATE
+            </button>
+          </>
+        ) : (
+          <p className="text-grayish-blue">
+            {isReply && (
+              <span className="text-moderate-blue font-medium">{`@${comment.replyingTo} `}</span>
+            )}
+            {comment.content}
+          </p>
+        )}
+
         <div className="flex justify-between">
           <ScoreCounter
             initialScore={comment.score}
@@ -63,7 +89,10 @@ const Comment = ({
                 <img src="images/icon-delete.svg" alt="" />
                 Delete
               </button>
-              <button className="flex items-center gap-2 text-moderate-blue font-medium">
+              <button
+                className="flex items-center gap-2 text-moderate-blue font-medium"
+                onClick={() => setShowEditInput(true)}
+              >
                 <img src="images/icon-edit.svg" alt="" />
                 Edit
               </button>
@@ -79,7 +108,12 @@ const Comment = ({
           )}
         </div>
       </div>
-      {showReplyInput && <NewCommentInput submitCallback={onReplySubmit} placeholder={`@${comment.user.username}`}/>}
+      {showReplyInput && (
+        <NewCommentInput
+          submitCallback={onReplySubmit}
+          placeholder={`@${comment.user.username}`}
+        />
+      )}
       {comment.replies?.length > 0 && (
         <ul className="flex flex-col pl-4 gap-4 border-l-2 border-light-gray">
           {comment.replies.map((reply) => (
@@ -89,6 +123,7 @@ const Comment = ({
                 isReply
                 handleDeleteButtonClick={handleDeleteButtonClick}
                 handleAddReply={handleAddReply}
+                handleUpdateComment={handleUpdateComment}
               />
             </li>
           ))}

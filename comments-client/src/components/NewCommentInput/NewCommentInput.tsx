@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { TextArea } from "../core/TextArea";
 
 type NewCommentInputProps = {
   submitCallback: () => void;
@@ -28,8 +29,7 @@ const NewCommentInput = ({
       className="flex flex-col bg-white rounded-lg p-4 gap-4"
       onSubmit={handleSubmit}
     >
-      <textarea
-        className="outline-light-gray rounded-lg px-6 py-3"
+      <TextArea
         placeholder={placeholder}
         value={inputValue}
         onChange={handleUpdateInput}
