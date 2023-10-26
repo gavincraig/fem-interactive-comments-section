@@ -25,18 +25,15 @@ function App() {
   }, []);
 
   const handleAddComment = (comment: string) => {
-    const newComments = postComment(comments, comment, currentUser, totalNumComments + 1);
-    setComments(newComments);
+    setComments(postComment(comments, comment, currentUser, totalNumComments + 1));
   };
 
   const handleUpdateComment = (comment: string, id: number) => {
-    const newComments = updateComment(comments, comment, id);
-    setComments(newComments);
+    setComments(updateComment(comments, comment, id));
   }
 
   const handleAddReply = (comment: string, replyingToId: number) => {
-    const newComments = postReply(comments, comment, currentUser, replyingToId, totalNumComments + 1);
-    setComments(newComments);
+    setComments(postReply(comments, comment, currentUser, replyingToId, totalNumComments + 1));
   };
 
   const handleDeleteComment = () => {
