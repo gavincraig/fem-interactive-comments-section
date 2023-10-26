@@ -3,8 +3,9 @@ import { Comment } from "./components/Comment";
 import DeleteCommentModal from "./components/DeleteCommentModal/DeleteCommentModal";
 import { NewCommentInput } from "./components/NewCommentInput";
 import { CurrentUserContext } from "./context/CurrentUserContext";
+import { deleteComment, postComment, postReply, updateComment } from "./mockServerActions";
 import { Comment as CommentType, User } from "./types";
-import { countCommentsRecursive, deleteCommentRecursive, findCommentByIdRecursive } from "./utils";
+import { countCommentsRecursive } from "./utils";
 
 function App() {
   const [comments, setComments] = useState<CommentType[] | []>([]);
@@ -24,44 +25,22 @@ function App() {
   }, []);
 
   const handleAddComment = (comment: string) => {
-    const newComment: CommentType = {
-      content: comment,
-      createdAt: "a moment ago",
-      id: totalNumComments + 1,
-      score: 1,
-      user: currentUser,
-    };
-    setComments((comments) => [...comments, newComment]);
+    const newComments = postComment(comments, comment, currentUser, totalNumComments + 1);
+    setComments(newComments);
   };
 
   const handleUpdateComment = (comment: string, id: number) => {
-    const newComments = [...comments];
-    const foundComment = findCommentByIdRecursive(newComments, id);
-    foundComment.content = comment;
+    const newComments = updateComment(comments, comment, id);
     setComments(newComments);
   }
 
   const handleAddReply = (comment: string, replyingToId: number) => {
-    const newComments = [...comments];
-    const commentReplyingTo = findCommentByIdRecursive(newComments, replyingToId);
-    const newComment = {
-      content: comment,
-      createdAt: "a moment ago",
-      id: totalNumComments + 1,
-      score: 1,
-      user: currentUser,
-      replyingTo: commentReplyingTo.user.username,
-    };
-    if (commentReplyingTo.replies) {
-      commentReplyingTo.replies.push(newComment);
-    } else {
-      commentReplyingTo.replies = [newComment];
-    }
+    const newComments = postReply(comments, comment, currentUser, replyingToId, totalNumComments + 1);
     setComments(newComments);
   };
 
   const handleDeleteComment = () => {
-    setComments(deleteCommentRecursive(comments, selectedCommentId));
+    setComments(deleteComment(comments, selectedCommentId));
     setShowDeleteCommentModal(false);
   };
 
